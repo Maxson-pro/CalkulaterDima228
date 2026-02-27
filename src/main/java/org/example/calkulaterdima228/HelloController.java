@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class HelloController {
+    private Calculater calc = new Calculater();
     private boolean isResultShown = false;
 
     @FXML
@@ -98,53 +99,9 @@ display.setText("");
         }}
     @FXML
     public void Ravno(ActionEvent event) {
-        try {
-            String text = display.getText().trim();
-            if (text.isEmpty()) return;
-           ArrayList<String> r = new ArrayList<>(Arrays.asList(text.split(" ")));
-            for (int i = 0; i < r.size(); i++) {
-                if (r.get(i).equals("*") || r.get(i).equals("/")) {
-                    double n1 = Double.parseDouble(r.get(i - 1));
-                    double n2 = Double.parseDouble(r.get(i + 1));
-                    double tempRes = 0;
-                    if (r.get(i).equals("*")) {
-                        tempRes = n1 * n2;
-                    } else {
-                        if (n2 == 0) {
-                            display.setText("Ошибка / 0");
-                            isResultShown = true;
-                            return;
-                        }
-                        tempRes = n1 / n2;
-                    }
-                    r.set(i - 1, String.valueOf(tempRes));
-                    r.remove(i);
-                    r.remove(i);
-                    i--;
-                }
-            }
-            double finalRes = Double.parseDouble(r.get(0));
-            for (int i = 1; i < r.size(); i += 2) {
-                String op = r.get(i);
-                double nextNum = Double.parseDouble(r.get(i + 1));
-                if (op.equals("+")) finalRes += nextNum;
-                else if (op.equals("-")) finalRes -= nextNum;
-            }
-            if (finalRes > 10000000 || finalRes < -10000000) {
-                display.setText(String.format("%.2E", finalRes));
-            } else {
-                if (finalRes == (long) finalRes) {
-                    display.setText(String.valueOf((long) finalRes));
-                } else {
-                    display.setText(String.valueOf(finalRes));
-                }
-            }
-            isResultShown = true;
-
-        } catch (Exception e) {
-            display.setText("Ошибка");
-            isResultShown = true;
-        }
+String result = calc.calculate(display.getText());
+        display.setText(result);
+        isResultShown = true;
     }
     @FXML
     public   void Tochka(ActionEvent event) {
