@@ -8,10 +8,10 @@ public class Calculater {
         try {
                 String text = expression.trim();
             if (text.isEmpty())
-                return "";
+                return "Пусто";
                   ArrayList<String> r = new ArrayList<>(Arrays.asList(text.split(" +")));
             if (r.size() < 3)
-                   return text;
+                   return "Неполный пример";
               for (int i = 0; i < r.size(); i++) {
                 if (r.get(i).equals("*") || r.get(i).equals("/")) {
                      double n1 = Double.parseDouble(r.get(i - 1));
@@ -37,6 +37,9 @@ public class Calculater {
                  if (op.equals("+")) finalRes += nextNum;
                      else if (op.equals("-")) finalRes -= nextNum;
             }
+            if (Double.isInfinite(finalRes))
+                return "Число слишком большое";
+
             if (finalRes > 10000000 || finalRes < -10000000) {
                   return String.format("%.2E", finalRes);
               } else {
@@ -48,7 +51,7 @@ public class Calculater {
             }
 
          } catch (Exception e) {
-               return "Ошибка";
+               return "Ошибка ввода";
         }
     }
 }
